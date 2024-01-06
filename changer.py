@@ -1,7 +1,25 @@
-import tls_client
-import random
-import string
-import requests
+try:
+    import os
+    import tls_client
+    import random
+    import string
+    import requests
+except ModuleNotFoundError:
+    i = 0
+    imports = [
+        "requests",
+        "tls_client",
+    ]
+    for _import in imports:
+        i += 1
+        print(f"Installing dependencies... ({i}/2)")
+        print(f"installing {_import}")
+        os.system(f'pip install {_import} > nul')
+    import tls_client
+    import random
+    import string
+    import requests
+
 
 session = tls_client.Session(client_identifier="chrome_120",random_tls_extension_order=True)
 
