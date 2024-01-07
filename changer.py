@@ -68,7 +68,6 @@ class Change:
             }
 
             response = session.patch('https://discord.com/api/v9/users/@me', headers=headers, json=data)
-            input(response.json())
             new_token = response.json()['token']
             if response.status_code == 200:
                 print(f"(+): Changed ({email}) → {new_token}")
@@ -83,12 +82,12 @@ class Change:
     
 if __name__ == "__main__":
     with open(f"combo.txt") as f:
-        m = f.read().splitlines()
-    m = list(set(m))
-    for i in m:
-        email = i.split(':')[0]
-        password = i.split(':')[1]
-        token = i.split(':')[2]
+        combo = f.read().splitlines()
+    combo = list(set(combo))
+    for account in combo:
+        email = account.split(':')[0]
+        password = account.split(':')[1]
+        token = account.split(':')[2]
 
         new_combo = Change().Changer(token, password, email)
         if new_combo.split(':')[0] == '69':
