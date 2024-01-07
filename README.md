@@ -8,10 +8,8 @@ You are free to distribute and modify this program under the [GPL V2 License](ht
 
 Stops Suppliers Reselling tokens!
 
-# Installation
-### Requirements
-A [Brain](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/brain)
-And [Python 3.11](https://www.python.org/downloads/release/python-3114/)
+# Requirements
+[Brain](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/brain)
 
 # format
 - email:password:token
