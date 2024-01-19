@@ -28,6 +28,8 @@ class Files:
         if not os.path.exists("config.json"):
             data = {
                 "Proxies": False,
+                "Custom_Password": False,
+                "Password": ""
             }
             with open("config.json", "w") as f:
                 json.dump(data, f, indent=4)
@@ -61,6 +63,8 @@ with open("config.json") as f:
     Config = json.load(f)
 
 proxy = Config["Proxies"]
+Password = Config["Password"]
+Custom_Password = Config["Custom_Password"]
 
 if proxy:
     session.proxies = {
@@ -102,9 +106,9 @@ class Change:
             'x-super-properties': 'eyJvcyI6IldpbmRvd3MiLCJicm93c2VyIjoiQ2hyb21lIiwiZGV2aWNlIjoiIiwic3lzdGVtX2xvY2FsZSI6InBsIiwiYnJvd3Nlcl91c2VyX2FnZW50IjoiTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEyMC4wLjAuMCBTYWZhcmkvNTM3LjM2IEVkZy8xMjAuMC4wLjAiLCJicm93c2VyX3ZlcnNpb24iOiIxMjAuMC4wLjAiLCJvc192ZXJzaW9uIjoiMTAiLCJyZWZlcnJlciI6IiIsInJlZmVycmluZ19kb21haW4iOiIiLCJyZWZlcnJlcl9jdXJyZW50IjoiIiwicmVmZXJyaW5nX2RvbWFpbl9jdXJyZW50IjoiIiwicmVsZWFzZV9jaGFubmVsIjoic3RhYmxlIiwiY2xpZW50X2J1aWxkX251bWJlciI6MjU2MjMxLCJjbGllbnRfZXZlbnRfc291cmNlIjpudWxsfQ==',
         }
     
-    def Changer(self, token, password, email):
+    def Changer(self, token, password, email, new_pass):
         try:
-            new_pass = self.get_random_str(20)
+            
             headers = self.Headers(token)
 
             data = {
@@ -132,12 +136,18 @@ if __name__ == "__main__":
     combo = list(set(combo))
     if len(combo) == 0:
         input("bruh paste combo into combo.txt lol")
+
+    if Custom_Password:
+        new_pass = Password
+    else:
+        new_pass = Change().get_random_str(20)
+
     for account in combo:
         email = account.split(':')[0]
         password = account.split(':')[1]
         token = account.split(':')[2]
 
-        new_combo = Change().Changer(token, password, email)
+        new_combo = Change().Changer(token, password, email, new_pass)
         if new_combo.split(':')[0] == '69':
             with open('new_combo.txt', 'a') as f:
                 f.write(new_combo.split(':')[1] + ':' + new_combo.split(':')[2] + ':' + new_combo.split(':')[3] + '\n')
