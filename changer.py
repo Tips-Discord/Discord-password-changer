@@ -41,7 +41,7 @@ class Files:
         ]
         for file in files:
             if not os.path.exists(file):
-                with open(f"data/{file}", "a") as f:
+                with open(f"{file}", "a") as f:
                     f.close()
 
     @staticmethod
@@ -54,7 +54,7 @@ Files.run_tasks()
 
 session = tls_client.Session(client_identifier="chrome_120",random_tls_extension_order=True)
 
-with open("data/proxies.txt") as f:
+with open("proxies.txt") as f:
     proxies = f.read().splitlines()
 
 with open("config.json") as f:
@@ -130,6 +130,8 @@ if __name__ == "__main__":
     with open(f"combo.txt") as f:
         combo = f.read().splitlines()
     combo = list(set(combo))
+    if len(combo) == 0:
+        input("bruh paste combo into combo.txt lol")
     for account in combo:
         email = account.split(':')[0]
         password = account.split(':')[1]
