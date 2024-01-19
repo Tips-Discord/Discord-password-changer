@@ -4,6 +4,7 @@ try:
     import random
     import string
     import requests
+    import json
 except ModuleNotFoundError:
     i = 0
     imports = [
@@ -21,7 +22,51 @@ except ModuleNotFoundError:
     import requests
 
 
+class Files:
+    @staticmethod
+    def write_config():
+        if not os.path.exists("config.json"):
+            data = {
+                "Proxies": False,
+            }
+            with open("config.json", "w") as f:
+                json.dump(data, f, indent=4)
+
+    @staticmethod
+    def write_files():
+        files = [
+            "combo.txt", 
+            "proxies.txt",
+            "new_combo.txt"
+        ]
+        for file in files:
+            if not os.path.exists(file):
+                with open(f"data/{file}", "a") as f:
+                    f.close()
+
+    @staticmethod
+    def run_tasks():
+        tasks = [Files.write_config, Files.write_files]
+        for task in tasks:
+            task()
+
+Files.run_tasks()
+
 session = tls_client.Session(client_identifier="chrome_120",random_tls_extension_order=True)
+
+with open("data/proxies.txt") as f:
+    proxies = f.read().splitlines()
+
+with open("config.json") as f:
+    Config = json.load(f)
+
+proxy = Config["Proxies"]
+
+if proxy:
+    session.proxies = {
+        "http": f"http://{random.choice(proxies)}",
+        "https": f"http://{random.choice(proxies)}",
+    }
 
 class Change:
     def get_random_str(self, length: int) -> str:
@@ -74,6 +119,7 @@ class Change:
                 return f'69:{email}:{new_pass}:{new_token}'
             elif response.status_code == 40002:
                 print(f"(!): Couldn't Change {email} → {token} is locked")
+                return f'07:{email}:{password}:{token}'
             else:
                 print(f"(!): Failed to change for → ({email})")
                 return f'07:{email}:{password}:{token}'
@@ -91,7 +137,7 @@ if __name__ == "__main__":
 
         new_combo = Change().Changer(token, password, email)
         if new_combo.split(':')[0] == '69':
-            with open('new_combo.txt', 'w') as f:
+            with open('new_combo.txt', 'a') as f:
                 f.write(new_combo.split(':')[1] + ':' + new_combo.split(':')[2] + ':' + new_combo.split(':')[3] + '\n')
         else:
             with open('failed.txt', 'a') as f:
