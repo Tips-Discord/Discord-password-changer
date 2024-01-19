@@ -117,8 +117,8 @@ class Change:
             }
 
             response = session.patch('https://discord.com/api/v9/users/@me', headers=headers, json=data)
-            new_token = response.json()['token']
             if response.status_code == 200:
+                new_token = response.json()['token']
                 print(f"(+): Changed ({email}) → {new_token}")
                 return f'69:{email}:{new_pass}:{new_token}'
             elif response.status_code == 40002:
